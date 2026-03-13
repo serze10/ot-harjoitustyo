@@ -1,0 +1,6 @@
+santersi@lx4-fuxi021:~$ tree ot-harjoitustyo/
+ot-harjoitustyo/
+└── laskarit
+    └── viikko1
+
+3 directories, 0 files

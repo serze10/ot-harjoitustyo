@@ -1,3 +1,5 @@
+
+```mermaid
 classDiagram
     %% PELIN PERUSRAKENNE
     Monopolipeli "1" -- "2" Noppa

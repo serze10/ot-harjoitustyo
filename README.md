@@ -25,19 +25,19 @@ poetry run invoke start
 
 ## Komentorivitoiminnot
 
-- Suorita sovellus:
-
+Suorita sovellus:
+#suorittaa tällä hetkellä testi datalla suoraan tämän hetkisen toiminnon
 ```bash
 poetry run invoke start
 ```
 
-- Testaus:
+Testaus:
 
 ```bash
 poetry run invoke test
 ```
 
-- Testikattavuus (HTML-raportti):
+Testikattavuus (HTML-raportti):
 
 ```bash
 poetry run invoke coverage-report
@@ -45,7 +45,7 @@ poetry run invoke coverage-report
 
 Raportti generoituu `htmlcov`-hakemistoon.
 
-- Pylint (staattinen analyysi):
+Pylint (staattinen analyysi):
 
 ```bash
 poetry run invoke lint

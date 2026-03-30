@@ -1,4 +1,5 @@
 .pytest_cache
 __pycache__
 .coverage
-htmlcovsrc/testfasta/real.fasta
+htmlcovsrc
+real.fasta

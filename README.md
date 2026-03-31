@@ -5,9 +5,9 @@
 
 Vaatimusmäärittely: [dokumentaatio/vaatimusmaarittely.md](dokumentaatio/vaatimusmaarittely.md)
 
-Linkki: [Tuntikirjanpito](https://github.com/serze10/ot-harjoitustyo/blob/main/dokumentaatio/tyoaikakirjanpito.md)
+Tuntikirjanpito: [Tuntikirjanpito](https://github.com/serze10/ot-harjoitustyo/blob/main/dokumentaatio/tyoaikakirjanpito.md)
 
-Lisätietoja muutoksista: [Changelog](dokumentaatio/changelog.md)
+Changelog: [Changelog](dokumentaatio/changelog.md)
 
 ## Asennus
 
@@ -26,7 +26,7 @@ poetry run invoke start
 ## Komentorivitoiminnot
 
 Suorita sovellus:
-#suorittaa tällä hetkellä testi datalla suoraan tämän hetkisen toiminnon
+(suorittaa tällä hetkellä testi datalla suoraan tämän hetkisen toiminnon)
 ```bash
 poetry run invoke start
 ```

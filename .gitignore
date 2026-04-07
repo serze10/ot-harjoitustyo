@@ -1,5 +1,14 @@
 .pytest_cache
 __pycache__
 .coverage
-htmlcovsrc
+htmlcov/
+.venv/
+
+# Coverage and reports
+htmlcov/
+coverage.xml
+
+# Data files and outputs
+*.json
+*.csv
 real.fasta

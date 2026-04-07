@@ -7,17 +7,35 @@ def start(ctx):
 
 @task
 def test(ctx):
-    # run tests located under src/tests
-    ctx.run("pytest src/tests", pty=True)
+    # run tests under the top-level `tests` directory only
+    ctx.run("pytest tests", pty=True)
 
 @task
 def coverage(ctx):
-    # run coverage over tests under src/tests
-    ctx.run("coverage run --branch -m pytest src/tests", pty=True)
+    # run coverage over tests under the top-level tests directory
+    ctx.run("coverage run --branch -m pytest tests", pty=True)
 
 
 @task
 def coverage_report(ctx):
-    """Run coverage and produce HTML report (htmlcov/index.html)."""
-    ctx.run("coverage run --branch -m pytest src/tests", pty=True)
+    #Run coverage and produce HTML report (htmlcov/index.html).
+    ctx.run("coverage run --branch -m pytest tests", pty=True)
     ctx.run("coverage html", pty=True)
+
+
+@task
+def pylint(ctx):
+    #Run pylint on src.
+    ctx.run("python3 -m pylint src", pty=True)
+
+
+@task
+def run_json(ctx):
+    """Run the CLI and save results as JSON to out.json."""
+    ctx.run("python3 src/run_dna.py src/testfasta/testi.fasta --gc-profile --save-results out.json", pty=True)
+
+
+@task
+def run_csv(ctx):
+    """Run the CLI and save results as CSV to out.csv."""
+    ctx.run("python3 src/run_dna.py src/testfasta/testi.fasta --gc-profile --save-results out.csv", pty=True)

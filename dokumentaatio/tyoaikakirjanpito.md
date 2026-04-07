@@ -7,4 +7,7 @@
 | 24.3.2026 | 0.5 h  | Työaikakirjaus taulukko |
 | 29.3.2026 | 5 h    | Aloituksen suunnittelu ja ensimmösen toiminnon aloitus |
 | 30.3.2026 | 6h     | Ensimmöisen toiminnon jatkaminen ja viikon 3 mukaisia toimenpiteitä |
-| YHTEENSÄ  | 3.5 h  |        |
+| 1.3.2026  | 4h     | Gc profiilin laskenta liukuvalla ikkunalla |
+| 5.3.2026  | 5h     | Pylint tiedosto, json ja cvs tallennus |
+| 7.3.2026  | 6h     | Tallennuksen jatkaminen ja funktioiden pilkkomista koska pylint | 
+| YHTEENSÄ  | 30 h  |        |

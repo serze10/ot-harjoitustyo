@@ -48,6 +48,23 @@ Raportti generoituu `htmlcov`-hakemistoon.
 Pylint (staattinen analyysi):
 
 ```bash
-poetry run invoke lint
+poetry run invoke pylint
+```
+
+Suorita CLI ja tallenna tulokset JSON/CSV:
+
+```bash
+# Tallenna JSON-muotoon
+poetry run invoke run-json
+
+# Tallenna CSV-muotoon
+poetry run invoke run-csv
+```
+
+Voit myös ajaa suoraan skriptin ilman invokea:
+
+```bash
+python3 src/run_dna.py src/testfasta/testi.fasta --gc-profile --save-results out.json
+python3 src/run_dna.py src/testfasta/testi.fasta --gc-profile --save-results out.csv
 ```
 

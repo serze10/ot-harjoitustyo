@@ -1,8 +1,5 @@
 def parse_fasta_string(s):
-    """Parses a FASTA string and returns a list of (header, sequence) tuples.
-
-    Sequences are returned as uppercase strings with whitespace/newlines removed.
-    """
+    #Parses a FASTA string and returns a list of (header, sequence) tuples.
     records = []
     header = None
     seq_lines = []

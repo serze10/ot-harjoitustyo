@@ -24,17 +24,18 @@ Vaatimukset on jaoteltu kurssin ohjeen mukaisesti.
 
 ####  Tiedoston käsittely
 - Käyttäjä voi valita FASTA‑tiedoston analysoitavaksi.
-- Sovellus osaa lukea yhden tai useita sekvenssejä sisältävän FASTA‑tiedoston.
+- Sovellus osaa lukea yhden tai useita sekvenssejä sisältävän FASTA‑tiedoston. Done
 - Käyttäjä voi valita, mitä tiedoston sekvenssiä analysoidaan.
 
 ####  Sekvenssin tarkistus
-- Sovellus tarkistaa, että sekvenssi sisältää vain sallitut nukleotidimerkit: **A, C, G, T, N**.
-- Virheellisistä merkeistä ilmoitetaan käyttäjälle.
+- Sovellus tarkistaa, että sekvenssi sisältää vain sallitut nukleotidimerkit: **A, C, G, T, N**. Done
+- Virheellisistä merkeistä ilmoitetaan käyttäjälle. Done
 
 ####  Perusanalyysi
-- Sekvenssin kokonaispituus.
-- Nukleotidien lukumäärät (A/C/G/T).
-- GC‑pitoisuus (%).
+- Sekvenssin kokonaispituus.  Done
+- Nukleotidien lukumäärät (A/C/G/T).  Done
+- GC‑pitoisuus (%).  Done
+- GC‑pitoisuuden liukuva ikkuna (esim. window = 100, step = 50).  Done
 
 ####  k‑mer‑tilastot
 - Käyttäjä voi valita k‑merin pituuden (esim. k = 1–10).
@@ -54,7 +55,7 @@ Vaatimukset on jaoteltu kurssin ohjeen mukaisesti.
 ### 3.2 Jatkokehitysideat (laajennettavat toiminnallisuudet)
 
 ####  Visualisoinnit
-- GC‑pitoisuuden liukuva ikkuna (esim. window = 100, step = 50).
+- GC‑pitoisuuden liukuva ikkuna (esim. window = 100, step = 50). 
 - GC‑profiilin kuvaaja (matplotlib).
 - k‑mer‑tilastojen pylväsdiagrammi.
 

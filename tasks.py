@@ -39,3 +39,9 @@ def run_json(ctx):
 def run_csv(ctx):
     """Run the CLI and save results as CSV to out.csv."""
     ctx.run("python3 src/run_dna.py src/testfasta/testi.fasta --gc-profile --save-results out.csv", pty=True)
+
+
+@task
+def gui(ctx):
+    """Launch the Tkinter GUI for the DNA tool."""
+    ctx.run("python3 src/gui.py", pty=True)

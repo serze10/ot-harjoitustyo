@@ -14,4 +14,4 @@
 | 9.3.2026  | 5h     | Gui tekoa |
 | 12.3.2026 | 5h     | Gui toimivaan kuntoon |
 | 14.3.2026 | 3h     | Testejä, dokumentoinnin päivittelyt ja pylint korjauksia |
-| YHTEENSÄ  | 30 h   |        |
+| YHTEENSÄ  | 45 h   |        |

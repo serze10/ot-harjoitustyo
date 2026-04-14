@@ -9,5 +9,9 @@
 | 30.3.2026 | 6h     | Ensimmöisen toiminnon jatkaminen ja viikon 3 mukaisia toimenpiteitä |
 | 1.3.2026  | 4h     | Gc profiilin laskenta liukuvalla ikkunalla |
 | 5.3.2026  | 5h     | Pylint tiedosto, json ja cvs tallennus |
-| 7.3.2026  | 6h     | Tallennuksen jatkaminen ja funktioiden pilkkomista koska pylint | 
-| YHTEENSÄ  | 30 h  |        |
+| 7.3.2026  | 6h     | Tallennuksen jatkaminen ja funktioiden pilkkomista koska pylint |
+| 8.3.2026  | 2h     | Tinkleriin tutustumista |
+| 9.3.2026  | 5h     | Gui tekoa |
+| 12.3.2026 | 5h     | Gui toimivaan kuntoon |
+| 14.3.2026 | 3h     | Testejä, dokumentoinnin päivittelyt ja pylint korjauksia |
+| YHTEENSÄ  | 30 h   |        |

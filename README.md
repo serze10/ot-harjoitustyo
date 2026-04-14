@@ -17,7 +17,7 @@ Asenna riippuvuudet:
 poetry install
 ```
 
-Käynnistä sovellus:
+Käynnistä sovellus (avautuu graafinen käyttöliittymä):
 
 ```bash
 poetry run invoke start
@@ -25,8 +25,8 @@ poetry run invoke start
 
 ## Komentorivitoiminnot
 
-Suorita sovellus:
-(suorittaa tällä hetkellä testi datalla suoraan tämän hetkisen toiminnon)
+Suorita sovellus (avautuu graafinen käyttöliittymä):
+
 ```bash
 poetry run invoke start
 ```
@@ -50,21 +50,3 @@ Pylint (staattinen analyysi):
 ```bash
 poetry run invoke pylint
 ```
-
-Suorita CLI ja tallenna tulokset JSON/CSV:
-
-```bash
-# Tallenna JSON-muotoon
-poetry run invoke run-json
-
-# Tallenna CSV-muotoon
-poetry run invoke run-csv
-```
-
-Voit myös ajaa suoraan skriptin ilman invokea:
-
-```bash
-python3 src/run_dna.py src/testfasta/testi.fasta --gc-profile --save-results out.json
-python3 src/run_dna.py src/testfasta/testi.fasta --gc-profile --save-results out.csv
-```
-

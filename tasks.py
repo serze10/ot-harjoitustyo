@@ -1,9 +1,9 @@
 from invoke import task
 
 @task
-# Run DNA analysis with test fasta because no UI yet.
 def start(ctx):
-    ctx.run("python3 src/run_dna.py src/testfasta/testi.fasta", pty=True)
+    # Launch the Tkinter GUI
+    ctx.run("python3 src/gui.py", pty=True)
 
 @task
 def test(ctx):
@@ -26,22 +26,4 @@ def coverage_report(ctx):
 @task
 def pylint(ctx):
     #Run pylint on src.
-    ctx.run("python3 -m pylint src", pty=True)
-
-
-@task
-def run_json(ctx):
-    """Run the CLI and save results as JSON to out.json."""
-    ctx.run("python3 src/run_dna.py src/testfasta/testi.fasta --gc-profile --save-results out.json", pty=True)
-
-
-@task
-def run_csv(ctx):
-    """Run the CLI and save results as CSV to out.csv."""
-    ctx.run("python3 src/run_dna.py src/testfasta/testi.fasta --gc-profile --save-results out.csv", pty=True)
-
-
-@task
-def gui(ctx):
-    """Launch the Tkinter GUI for the DNA tool."""
-    ctx.run("python3 src/gui.py", pty=True)
+    ctx.run("python3 pylint src", pty=True)

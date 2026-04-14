@@ -51,8 +51,7 @@ def calculate_gc_profile(seq, window=100, step=50):
 
 
 def _sliding_windows_gc(s, window, step):
-    #Returns (positions, gc_values)
-    
+    # Returns (positions, gc_values)
     n = len(s)
     positions = []
     gc_values = []

@@ -25,6 +25,13 @@
 	- Hajotettu suurempia funktioita apufunktioiksi (`_sliding_windows_gc`,
 		`_write_single_summary`, `_write_multiple_summary`, `_process_record`).
 
+## Viikko 5
+
+- Lisätty yksinkertainen graafinen käyttöliittymä Tkinterillä: `src/gui.py`.
+	- GUI:sta voi avata FASTA‑tiedoston, valita sekvenssin, määrittää GC‑ikkunan
+		(`window`) ja askeleen (`step`), suorittaa analyysin sekä tarkastella
+		analyysin yhteenvetoa tekstinä.
+	- Tulokset voi tallentaa JSON- tai CSV‑muotoon käyttöliittymän `Save Results...`‑painikkeella.
+- Lisätty `invoke gui`‑tehtävä `tasks.py` GUI:n käynnistykseen ja dokumentoitu
 
 
-Dokumentaatioon lisätty myös lyhyt käyttöohje CLI:lle ja testiohjeet.

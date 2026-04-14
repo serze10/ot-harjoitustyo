@@ -1,20 +1,7 @@
-import json
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
-try:
-    # optional plotting
-    import matplotlib.pyplot as plt
-    HAS_MATPLOTLIB = True
-except Exception:
-    HAS_MATPLOTLIB = False
-
-from dna_tool import (
-    read_fasta,
-    analyze_sequence,
-    calculate_gc_profile,
-    save_results,
-)
+import dna_tool
 
 
 class DNAGui(tk.Tk):
@@ -22,57 +9,73 @@ class DNAGui(tk.Tk):
         super().__init__()
         self.title("DNA Analysis Tool")
         self.geometry("800x600")
+        # initialize state
+        self.records = []
+        self.current_result = None
+        # declare widget attributes to satisfy lint (defined in builders)
+        self.seq_var = None
+        self.seq_menu = None
+        self.gc_var = None
+        self.win_entry = None
+        self.step_entry = None
+        self.txt = None
 
         self._build_widgets()
-        self.records = []
 
     def _build_widgets(self):
+        self._build_top_widgets()
+        self._build_text_widget()
+
+    def _build_top_widgets(self):
         frm_top = tk.Frame(self)
         frm_top.pack(fill=tk.X, padx=8, pady=8)
+        self._add_open_button(frm_top)
+        self._add_seq_menu(frm_top)
+        self._add_gc_checkbox(frm_top)
+        self._add_entry(frm_top, "Window:", "100", "win_entry")
+        self._add_entry(frm_top, "Step:", "50", "step_entry")
+        self._add_run_and_save(frm_top)
 
-        btn_open = tk.Button(frm_top, text="Open FASTA", command=self.open_fasta)
+    def _add_open_button(self, parent):
+        btn_open = tk.Button(parent, text="Open FASTA", command=self.open_fasta)
         btn_open.pack(side=tk.LEFT)
 
+    def _add_seq_menu(self, parent):
         self.seq_var = tk.StringVar()
-        self.seq_menu = tk.OptionMenu(frm_top, self.seq_var, "")
+        self.seq_menu = tk.OptionMenu(parent, self.seq_var, "")
         self.seq_menu.pack(side=tk.LEFT, padx=8)
 
+    def _add_gc_checkbox(self, parent):
         self.gc_var = tk.BooleanVar(value=True)
-        chk_gc = tk.Checkbutton(frm_top, text="Compute GC profile", variable=self.gc_var)
+        chk_gc = tk.Checkbutton(parent, text="Compute GC profile", variable=self.gc_var)
         chk_gc.pack(side=tk.LEFT, padx=8)
 
-        tk.Label(frm_top, text="Window:").pack(side=tk.LEFT)
-        self.win_entry = tk.Entry(frm_top, width=6)
-        self.win_entry.insert(0, "100")
-        self.win_entry.pack(side=tk.LEFT)
+    def _add_entry(self, parent, label_text, default, attr_name):
+        tk.Label(parent, text=label_text).pack(side=tk.LEFT)
+        ent = tk.Entry(parent, width=6)
+        ent.insert(0, default)
+        ent.pack(side=tk.LEFT)
+        setattr(self, attr_name, ent)
 
-        tk.Label(frm_top, text="Step:").pack(side=tk.LEFT)
-        self.step_entry = tk.Entry(frm_top, width=6)
-        self.step_entry.insert(0, "50")
-        self.step_entry.pack(side=tk.LEFT)
-
-        btn_run = tk.Button(frm_top, text="Run", command=self.run_analysis)
+    def _add_run_and_save(self, parent):
+        btn_run = tk.Button(parent, text="Run", command=self.run_analysis)
         btn_run.pack(side=tk.LEFT, padx=8)
-
-        btn_save = tk.Button(frm_top, text="Save Results...", command=self.save_results)
+        btn_save = tk.Button(parent, text="Save Results...", command=self.save_results)
         btn_save.pack(side=tk.LEFT, padx=8)
 
-        if HAS_MATPLOTLIB:
-            btn_plot = tk.Button(frm_top, text="Plot GC", command=self.plot_gc)
-            btn_plot.pack(side=tk.LEFT, padx=8)
-
-        # Text output
+    def _build_text_widget(self):
         self.txt = tk.Text(self, wrap=tk.NONE)
         self.txt.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
 
     def open_fasta(self):
-        path = filedialog.askopenfilename(filetypes=[("FASTA files", "*.fasta *.fa *"), ("All files", "*")])
+        filetypes = [("FASTA files", "*.fasta *.fa *"), ("All files", "*")]
+        path = filedialog.askopenfilename(filetypes=filetypes)
         if not path:
             return
         try:
-            recs = read_fasta(path)
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to read FASTA: {e}")
+            recs = dna_tool.read_fasta(path)
+        except (OSError, UnicodeError) as exc:
+            messagebox.showerror("Error", f"Failed to read FASTA: {exc}")
             return
         self.records = recs
         menu = self.seq_menu["menu"]
@@ -104,53 +107,38 @@ class DNAGui(tk.Tk):
             messagebox.showerror("Invalid input", "Window and step must be integers")
             return
 
-        analysis = analyze_sequence(seq)
-        output = [f">{header}", f"Length: {analysis['length']}", f"Counts: {analysis['counts']}", f"GC %: {analysis['gc_percent']}"]
+        analysis = dna_tool.analyze_sequence(seq)
+        output = [f">{header}", f"Length: {analysis['length']}"]
+        output.append(f"Counts: {analysis['counts']}")
+        output.append(f"GC %: {analysis['gc_percent']}")
 
         if self.gc_var.get():
-            positions, gc_vals = calculate_gc_profile(seq, window=window, step=step)
-            analysis["gc_profile"] = list(zip(positions, gc_vals))
-            output.append(f"GC profile windows: {len(positions)}")
-            output.append(f"First windows (pos,gc): {analysis['gc_profile'][:10]}")
+            self._compute_and_append_gc(analysis, seq, window, step, output)
 
         self.current_result = {"header": header, **analysis}
         self.txt.insert(tk.END, "\n".join(output) + "\n\n")
+
+    def _compute_and_append_gc(self, analysis, seq, window, step, output):
+        positions, gc_vals = dna_tool.calculate_gc_profile(seq, window=window, step=step)
+        analysis["gc_profile"] = list(zip(positions, gc_vals))
+        output.append(f"GC profile windows: {len(positions)}")
+        first_windows = analysis["gc_profile"][:10]
+        output.append(f"First windows (pos,gc): {first_windows}")
 
     def save_results(self):
         if not hasattr(self, "current_result"):
             messagebox.showinfo("No results", "Run analysis before saving")
             return
-        path = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON", "*.json"), ("CSV", "*.csv")])
+        save_types = [("JSON", "*.json"), ("CSV", "*.csv")]
+        path = filedialog.asksaveasfilename(defaultextension=".json", filetypes=save_types)
         if not path:
             return
-        # if user chose csv extension but provided .json override not supported here; save_results will infer
         try:
-            save_results(path, self.current_result)
-        except Exception as e:
-            messagebox.showerror("Save failed", str(e))
+            dna_tool.save_results(path, self.current_result)
+        except (OSError, ValueError) as exc:
+            messagebox.showerror("Save failed", str(exc))
             return
         messagebox.showinfo("Saved", f"Results saved to {path}")
-
-    def plot_gc(self):
-        if not HAS_MATPLOTLIB:
-            messagebox.showinfo("Not available", "matplotlib not installed")
-            return
-        if not hasattr(self, "current_result"):
-            messagebox.showinfo("No results", "Run analysis before plotting")
-            return
-        profile = self.current_result.get("gc_profile")
-        if not profile:
-            messagebox.showinfo("No profile", "GC profile not available")
-            return
-        positions, gc_vals = zip(*profile)
-        plt.figure(figsize=(8, 3))
-        plt.plot(positions, gc_vals, marker="o")
-        plt.xlabel("Position")
-        plt.ylabel("GC %")
-        plt.title(f"GC profile: {self.current_result.get('header')}")
-        plt.grid(True)
-        plt.show()
-
 
 def main():
     app = DNAGui()

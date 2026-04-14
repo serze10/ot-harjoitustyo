@@ -47,8 +47,8 @@ Vaatimukset on jaoteltu kurssin ohjeen mukaisesti.
 - Sovellus etsii kaikki motiivin esiintymiskohdat sekvenssistä.
 
 ####  Käyttöliittymä
-- Sovellusta voidaan käyttää komentoriviltä.
-- Vaihtoehtoisesti voidaan toteuttaa yksinkertainen Tkinter‑käyttöliittymä (ei pakollinen perusversiossa).
+- Sovellusta voidaan käyttää komentoriviltä. Done
+- Vaihtoehtoisesti voidaan toteuttaa yksinkertainen Tkinter‑käyttöliittymä Done
 
 ---
 

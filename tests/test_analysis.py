@@ -31,6 +31,21 @@ class TestAnalysis(unittest.TestCase):
         save_results_csv(cpath, res)
         self.assertTrue(os.path.exists(cpath))
 
+    def test_gc_profile_shorter_than_window(self):
+        seq = "ACG"
+        positions, gc = calculate_gc_profile(seq, window=10, step=5)
+        # sequence shorter than window should produce one window starting at 0
+        self.assertEqual(positions, [0])
+        self.assertEqual(len(gc), 1)
+
+    def test_analyze_sequence_with_invalid_chars(self):
+        # invalid characters should be treated as 'N'
+        seq = "ACGTXYZ"
+        res = analyze_sequence(seq)
+        counts = res["counts"]
+        # X, Y, Z -> counted as N
+        self.assertGreaterEqual(counts.get("N", 0), 3)
+
 
 if __name__ == "__main__":
     unittest.main()

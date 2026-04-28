@@ -13,6 +13,8 @@ Arkkitehtuuri: [Arkkitehtuuri](dokumentaatio/arkkitehtuuri.md)
 
 Käyttöohje: [Käyttöohje](dokumentaatio/kayttoohje.md)
 
+Release: [Release](ot-harjoitustyo/releases)
+
 ## Asennus
 
 Asenna riippuvuudet:

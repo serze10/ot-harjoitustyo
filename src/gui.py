@@ -9,10 +9,8 @@ class DNAGui(tk.Tk):
         super().__init__()
         self.title("DNA Analysis Tool")
         self.geometry("800x600")
-        # initialize state
         self.records = []
         self.current_result = None
-        # declare widget attributes to satisfy lint (defined in builders)
         self.seq_var = None
         self.seq_menu = None
         self.gc_var = None

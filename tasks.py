@@ -26,4 +26,4 @@ def coverage_report(ctx):
 @task
 def pylint(ctx):
     #Run pylint on src.
-    ctx.run("python3 pylint src", pty=True)
+    ctx.run("python3 -m pylint src", pty=True)

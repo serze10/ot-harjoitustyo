@@ -45,5 +45,3 @@ RunDNA ..> dna_tool_parser : uses
 RunDNA ..> dna_tool_analysis : uses
 
 ```
-
-Huom: `package`-lohko poistettu, koska joissain Mermaid-versioissa sitä ei tueta `classDiagram`-rakenteessa. Tässä versiossa moduulit on esitetty erillisinä luokkina nimillä `dna_tool_parser` ja `dna_tool_analysis`.

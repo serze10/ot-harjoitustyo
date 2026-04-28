@@ -8,7 +8,11 @@ VALID_BASES = set(["A", "C", "G", "T", "N"])
 
 
 def count_nucleotides(seq):
-    #Count nucleotides A/C/G/T/N in seq and returns a dict.
+    """Count nucleotides A/C/G/T/N in ``seq`` and return a dict.
+
+    Any unknown character is counted as 'N'. The returned dict contains
+    keys for ``A``, ``C``, ``G``, ``T`` and ``N`` with integer counts.
+    """
     seq = seq.upper()
     c = Counter()
     for i in seq:
@@ -21,7 +25,11 @@ def count_nucleotides(seq):
 
 
 def gc_content(seq):
-    #Return GC percentage computed over A/C/G/T bases. If none, returns 0.0.
+    """Return GC percentage computed over A/C/G/T bases.
+
+    Non-ATCG characters are treated as 'N' and excluded from the
+    denominator. Returns 0.0 if there are no A/C/G/T bases.
+    """
     seq = seq.upper()
     counts = count_nucleotides(seq)
     atcg = counts["A"] + counts["C"] + counts["G"] + counts["T"]
@@ -32,7 +40,11 @@ def gc_content(seq):
 
 
 def analyze_sequence(seq):
-    #Return a dictionary with length, counts and gc% for the given sequence.
+    """Analyze ``seq`` and return a summary dictionary.
+
+    The returned dict contains the sequence ``length`` (excluding newlines),
+    nucleotide ``counts``, and ``gc_percent`` rounded to 4 decimals.
+    """
     counts = count_nucleotides(seq)
     length = len(seq.replace("\n", ""))
     return {
@@ -43,7 +55,12 @@ def analyze_sequence(seq):
 
 
 def calculate_gc_profile(seq, window=100, step=50):
-    # Calculate GC content profile along the sequence using sliding windows.
+    """Calculate GC content profile along ``seq`` using sliding windows.
+
+    ``window`` and ``step`` must be positive integers. Returns a tuple
+    ``(positions, gc_values)`` where positions are 0-based window start
+    indices and gc_values are GC percentages for each window.
+    """
     if window <= 0 or step <= 0:
         raise ValueError("window and step must be positive integers")
     s = seq.upper()
@@ -51,7 +68,10 @@ def calculate_gc_profile(seq, window=100, step=50):
 
 
 def _sliding_windows_gc(s, window, step):
-    # Returns (positions, gc_values)
+    """Internal helper: return ``(positions, gc_values)`` for sliding windows.
+
+    ``s`` is expected to be an uppercase sequence string.
+    """
     n = len(s)
     positions = []
     gc_values = []
@@ -79,7 +99,11 @@ def _sliding_windows_gc(s, window, step):
 
 
 def save_results_json(path, results):
-    # Save results to a JSON file. Creates parent directories if needed.
+    """Save ``results`` to a JSON file at ``path``.
+
+    Parent directories are created if they do not exist. The JSON is
+    written with indentation and UTF-8 encoding.
+    """
     d = os.path.dirname(path)
     if d and not os.path.exists(d):
         os.makedirs(d, exist_ok=True)
@@ -88,7 +112,12 @@ def save_results_json(path, results):
 
 
 def save_results_csv(path, results):
-    # Save results to a CSV file. Creates parent directories if needed.
+    """Save ``results`` to a CSV file at ``path``.
+
+    If ``results`` is a list, a summary table is written followed by a
+    per-window GC profile section. Parent directories are created when
+    necessary.
+    """
     d = os.path.dirname(path)
     if d and not os.path.exists(d):
         os.makedirs(d, exist_ok=True)
@@ -107,7 +136,11 @@ def save_results_csv(path, results):
 
 
 def save_results(path, results, fmt=None):
-    # Save results to a file in json or csv.
+    """Save analysis ``results`` to ``path`` using JSON or CSV format.
+
+    The format can be provided explicitly via ``fmt`` ("json" or "csv");
+    if omitted it is inferred from the file extension.
+    """
     if fmt is None:
         _, ext = os.path.splitext(path)
         fmt = ext.lstrip(".").lower()
@@ -120,7 +153,10 @@ def save_results(path, results, fmt=None):
 
 
 def _write_single_summary(writer, results):
-    #Write summary and GC profile for a single results dict.
+    """Write summary and GC profile for a single results dict to CSV.
+
+    The writer is a csv.writer instance.
+    """
     writer.writerow(["metric", "value"])
     writer.writerow(["length", results.get("length")])
     counts = results.get("counts", {})
@@ -135,7 +171,11 @@ def _write_single_summary(writer, results):
 
 
 def _write_multiple_summary(writer, results):
-    #Write summary table for multiple result records.
+    """Write a summary table for multiple result records to CSV.
+
+    The writer is a csv.writer instance. Each row contains header,
+    length, base counts and gc_percent.
+    """
     header_row = [
         "header",
         "length",
@@ -159,3 +199,24 @@ def _write_multiple_summary(writer, results):
             counts.get("N"),
             rec.get("gc_percent"),
         ])
+
+
+def find_motif(seq: str, motif: str) -> list:
+    """Find all (possibly overlapping) occurrences of `motif` in `seq`.
+
+    Returns a list of 0-based start positions. Both `seq` and `motif` are
+    compared case-insensitively. If motif is empty, returns an empty list.
+    """
+    if not motif:
+        return []
+    s = seq.upper()
+    m = motif.upper()
+    positions = []
+    start = 0
+    while True:
+        idx = s.find(m, start)
+        if idx == -1:
+            break
+        positions.append(idx)
+        start = idx + 1  # allow overlapping matches
+    return positions

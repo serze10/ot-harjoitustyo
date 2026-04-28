@@ -1,5 +1,9 @@
 def parse_fasta_string(s):
-    #Parses a FASTA string and returns a list of (header, sequence) tuples.
+    """Parse a FASTA-formatted string and return a list of (header, sequence) tuples.
+
+    Empty lines are ignored. Sequence lines are concatenated and returned in
+    upper-case. Headers are the text following the leading '>' on header lines.
+    """
     records = []
     header = None
     seq_lines = []
@@ -23,7 +27,11 @@ def parse_fasta_string(s):
 
 
 def read_fasta(path):
-    #Reads a FASTA file from path and returns list of (header, sequence).
+    """Read a FASTA file from ``path`` and return list of (header, sequence).
+
+    The file is read using UTF-8 encoding and parsed with
+    :func:`parse_fasta_string`.
+    """
     with open(path, "r", encoding="utf-8") as f:
         content = f.read()
     return parse_fasta_string(content)

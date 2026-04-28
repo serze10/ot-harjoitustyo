@@ -1,3 +1,9 @@
+"""Command-line entry point for simple DNA analyses.
+
+This module provides ``main()`` which parses CLI arguments and calls the
+dna_tool analysis functions to print summaries and optionally save results.
+"""
+
 import argparse
 import sys
 from dna_tool import (
@@ -64,7 +70,10 @@ def main(argv=None):
 
 
 def _process_record(header, seq, args):
-    #Analyze a single record, optionally compute GC profile and print summary.
+    """Analyze a single record, optionally compute GC profile and print summary.
+
+    Returns a dict suitable for saving (contains header and analysis keys).
+    """
     print(f">{header}")
     analysis = analyze_sequence(seq)
     print(f"Length: {analysis['length']}")

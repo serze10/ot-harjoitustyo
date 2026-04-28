@@ -10,6 +10,7 @@ from .analysis import (
 	save_results,
 	save_results_json,
 	save_results_csv,
+	find_motif,
 )
 
 __all__ = [
@@ -22,4 +23,5 @@ __all__ = [
 	"save_results",
 	"save_results_json",
 	"save_results_csv",
+	"find_motif",
 ]

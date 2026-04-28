@@ -34,9 +34,17 @@
 	- Tulokset voi tallentaa JSON- tai CSV‑muotoon käyttöliittymän `Save Results...`‑painikkeella.
 - Muutettu `invoke start`‑tehtävä `tasks.py` GUI:n käynnistykseen ja dokumentoitu
 - Lisätty integraatio- ja CLI-testit:
-		- `tests/test_run_dna.py`: integraatiotesti, joka varmistaa `run_dna`-CLI:n
-			tulostuksen kun `--gc-profile` on käytössä.
-		- `tests/test_analysis.py`: yksikkötestit JSON/CSV-tallennukselle sekä
-			GC‑profiilin ja virhetilanteiden testaus.
+	- `tests/test_run_dna.py`: integraatiotesti, joka varmistaa `run_dna`-CLI:n
+		tulostuksen kun `--gc-profile` on käytössä.
+	- `tests/test_analysis.py`: yksikkötestit JSON/CSV-tallennukselle sekä
+		GC‑profiilin ja virhetilanteiden testaus.
+
+## Viikko 6
+
+- Lisätty testejä `tests/test_analysis.py` -tiedostoon sekä `test/test_gui.py`.
+- Lisätty arkkitehtuuridokumentti `dokumentaatio/arkkitehtuuri.md` jossa nyt luokkakaavio, korkean tason rakennekuvauksen ja sovellulogiikan kulkuosion.
+- Lisätty alustava käyttöohje: `dokumentaatio/kayttoohje.md` (ohjeet GUI:lle ja CLI:lle sekä testaukselle).
+- Pieniä siivouksia ja tehtäväpäivityksiä projektin metatiedoissa (testien yhdistelmät ja dokumentaatiopäivitykset).
+- Lisätty motiivin etsintä `dna_tool.analysis.find_motif` 
 
 

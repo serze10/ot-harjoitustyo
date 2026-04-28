@@ -1,11 +1,13 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
+from dna_tool import analysis
 import dna_tool
 
 
 class DNAGui(tk.Tk):
     def __init__(self):
+        """Initialize the GUI window and internal state, then build widgets."""
         super().__init__()
         self.title("DNA Analysis Tool")
         self.geometry("800x600")
@@ -21,10 +23,12 @@ class DNAGui(tk.Tk):
         self._build_widgets()
 
     def _build_widgets(self):
+        """Build the top control bar and the main text widget."""
         self._build_top_widgets()
         self._build_text_widget()
 
     def _build_top_widgets(self):
+        """Create and pack the top frame containing controls and inputs."""
         frm_top = tk.Frame(self)
         frm_top.pack(fill=tk.X, padx=8, pady=8)
         self._add_open_button(frm_top)
@@ -32,23 +36,28 @@ class DNAGui(tk.Tk):
         self._add_gc_checkbox(frm_top)
         self._add_entry(frm_top, "Window:", "100", "win_entry")
         self._add_entry(frm_top, "Step:", "50", "step_entry")
+        self._add_entry(frm_top, "Motif:", "", "motif_entry")
         self._add_run_and_save(frm_top)
 
     def _add_open_button(self, parent):
+        """Add a button to open a FASTA file and populate sequences."""
         btn_open = tk.Button(parent, text="Open FASTA", command=self.open_fasta)
         btn_open.pack(side=tk.LEFT)
 
     def _add_seq_menu(self, parent):
+        """Add an OptionMenu for selecting a sequence from the loaded FASTA."""
         self.seq_var = tk.StringVar()
         self.seq_menu = tk.OptionMenu(parent, self.seq_var, "")
         self.seq_menu.pack(side=tk.LEFT, padx=8)
 
     def _add_gc_checkbox(self, parent):
+        """Add a checkbox to toggle GC profile computation on/off."""
         self.gc_var = tk.BooleanVar(value=True)
         chk_gc = tk.Checkbutton(parent, text="Compute GC profile", variable=self.gc_var)
         chk_gc.pack(side=tk.LEFT, padx=8)
 
     def _add_entry(self, parent, label_text, default, attr_name):
+        """Add a labeled Entry and store it on ``self`` as ``attr_name``."""
         tk.Label(parent, text=label_text).pack(side=tk.LEFT)
         ent = tk.Entry(parent, width=6)
         ent.insert(0, default)
@@ -56,16 +65,21 @@ class DNAGui(tk.Tk):
         setattr(self, attr_name, ent)
 
     def _add_run_and_save(self, parent):
+        """Add Run/Save/Find Motif buttons to the parent frame."""
         btn_run = tk.Button(parent, text="Run", command=self.run_analysis)
         btn_run.pack(side=tk.LEFT, padx=8)
         btn_save = tk.Button(parent, text="Save Results...", command=self.save_results)
         btn_save.pack(side=tk.LEFT, padx=8)
+        btn_motif = tk.Button(parent, text="Find Motif", command=self.find_motif)
+        btn_motif.pack(side=tk.LEFT, padx=8)
 
     def _build_text_widget(self):
+        """Create the main text area used for output and logs."""
         self.txt = tk.Text(self, wrap=tk.NONE)
         self.txt.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
 
     def open_fasta(self):
+        """Open a FASTA file and populate the sequence selection menu."""
         filetypes = [("FASTA files", "*.fasta *.fa *"), ("All files", "*")]
         path = filedialog.askopenfilename(filetypes=filetypes)
         if not path:
@@ -85,6 +99,10 @@ class DNAGui(tk.Tk):
         self.txt.insert(tk.END, f"Loaded {len(recs)} records from {path}\n")
 
     def _get_selected_record(self):
+        """Return the currently selected (header, sequence) tuple.
+
+        Falls back to the first record if the selection is missing.
+        """
         name = self.seq_var.get()
         for h, seq in self.records:
             if h == name:
@@ -94,6 +112,7 @@ class DNAGui(tk.Tk):
         return None, None
 
     def run_analysis(self):
+        """Run analysis on the selected sequence and append results to text."""
         header, seq = self._get_selected_record()
         if not seq:
             messagebox.showinfo("No sequence", "Open a FASTA and select a sequence first")
@@ -105,25 +124,27 @@ class DNAGui(tk.Tk):
             messagebox.showerror("Invalid input", "Window and step must be integers")
             return
 
-        analysis = dna_tool.analyze_sequence(seq)
-        output = [f">{header}", f"Length: {analysis['length']}"]
-        output.append(f"Counts: {analysis['counts']}")
-        output.append(f"GC %: {analysis['gc_percent']}")
+        result = dna_tool.analyze_sequence(seq)
+        output = [f">{header}", f"Length: {result['length']}"]
+        output.append(f"Counts: {result['counts']}")
+        output.append(f"GC %: {result['gc_percent']}")
 
         if self.gc_var.get():
-            self._compute_and_append_gc(analysis, seq, window, step, output)
+            self._compute_and_append_gc(result, seq, window, step, output)
 
-        self.current_result = {"header": header, **analysis}
+        self.current_result = {"header": header, **result}
         self.txt.insert(tk.END, "\n".join(output) + "\n\n")
 
-    def _compute_and_append_gc(self, analysis, seq, window, step, output):
+    def _compute_and_append_gc(self, result, seq, window, step, output):
+        """Compute GC profile windows and append a brief summary to output."""
         positions, gc_vals = dna_tool.calculate_gc_profile(seq, window=window, step=step)
-        analysis["gc_profile"] = list(zip(positions, gc_vals))
+        result["gc_profile"] = list(zip(positions, gc_vals))
         output.append(f"GC profile windows: {len(positions)}")
-        first_windows = analysis["gc_profile"][:10]
+        first_windows = result["gc_profile"][:10]
         output.append(f"First windows (pos,gc): {first_windows}")
 
     def save_results(self):
+        """Save the current analysis result to JSON or CSV chosen by user."""
         if not hasattr(self, "current_result"):
             messagebox.showinfo("No results", "Run analysis before saving")
             return
@@ -137,6 +158,38 @@ class DNAGui(tk.Tk):
             messagebox.showerror("Save failed", str(exc))
             return
         messagebox.showinfo("Saved", f"Results saved to {path}")
+
+    def find_motif(self):
+        """Search the selected sequence for a user-provided motif and show positions."""
+        header, seq = self._get_selected_record()
+        if not seq:
+            messagebox.showinfo("No sequence", "Open a FASTA and select a sequence first")
+            return
+        motif = ""
+        if hasattr(self, 'motif_entry') and self.motif_entry:
+            motif = self.motif_entry.get().strip()
+        if not motif:
+            messagebox.showinfo("No motif", "Enter a motif string first")
+            return
+        try:
+            pos = analysis.find_motif(seq, motif)
+        except Exception as exc:
+            messagebox.showerror("Error", str(exc))
+            return
+
+        if not pos:
+            messagebox.showinfo("No matches", f"Motif '{motif}' not found in sequence {header}")
+            return
+
+        # Display results in the text area (show all positions)
+        self.txt.insert(tk.END, f"Motif search: '{motif}' in {header} -> {len(pos)} matches\n")
+        # Print positions with line breaks every 25 entries for readability
+        self.txt.insert(tk.END, "Positions (0-based):\n")
+        for i in range(0, len(pos), 25):
+            chunk = pos[i : i + 25]
+            line = ", ".join(str(p) for p in chunk)
+            self.txt.insert(tk.END, line + "\n")
+        self.txt.insert(tk.END, "\n")
 
 def main():
     app = DNAGui()

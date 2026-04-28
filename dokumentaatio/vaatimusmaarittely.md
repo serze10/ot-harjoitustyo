@@ -23,9 +23,9 @@ Vaatimukset on jaoteltu kurssin ohjeen mukaisesti.
 ### 3.1 Perusversion toiminnallisuudet
 
 ####  Tiedoston käsittely
-- Käyttäjä voi valita FASTA‑tiedoston analysoitavaksi.
+- Käyttäjä voi valita FASTA‑tiedoston analysoitavaksi. Done
 - Sovellus osaa lukea yhden tai useita sekvenssejä sisältävän FASTA‑tiedoston. Done
-- Käyttäjä voi valita, mitä tiedoston sekvenssiä analysoidaan.
+- Käyttäjä voi valita, mitä tiedoston sekvenssiä analysoidaan. Done
 
 ####  Sekvenssin tarkistus
 - Sovellus tarkistaa, että sekvenssi sisältää vain sallitut nukleotidimerkit: **A, C, G, T, N**. Done

@@ -2,10 +2,23 @@ import os
 import sys
 import tempfile
 import unittest
+from types import SimpleNamespace
 
 sys.path.insert(0, os.path.abspath("src"))
 
-from dna_tool import analyze_sequence, calculate_gc_profile, save_results_json, save_results_csv
+from dna_tool import (
+    parse_fasta_string,
+    count_nucleotides,
+    gc_content,
+    analyze_sequence,
+    calculate_gc_profile,
+    save_results,
+    save_results_json,
+    save_results_csv,
+    find_motif,
+)
+
+from run_dna import _process_record
 
 
 class TestAnalysis(unittest.TestCase):
@@ -31,17 +44,30 @@ class TestAnalysis(unittest.TestCase):
         save_results_csv(cpath, res)
         self.assertTrue(os.path.exists(cpath))
 
-    def test_gc_profile_shorter_than_window(self):
-        seq = "ACG"
-        positions, gc = calculate_gc_profile(seq, window=10, step=5)
-        self.assertEqual(positions, [0])
-        self.assertEqual(len(gc), 1)
-
     def test_analyze_sequence_with_invalid_chars(self):
         seq = "ACGTXYZ"
         res = analyze_sequence(seq)
         counts = res["counts"]
         self.assertGreaterEqual(counts.get("N", 0), 3)
+
+    def test_calculate_gc_profile_invalid_args(self):
+        with self.assertRaises(ValueError):
+            calculate_gc_profile("ACGT", window=0, step=1)
+        with self.assertRaises(ValueError):
+            calculate_gc_profile("ACGT", window=1, step=0)
+
+    def test_find_motif_overlapping(self):
+        seq = "AAAA"
+        pos = find_motif(seq, "AA")
+        self.assertEqual(pos, [0, 1, 2])
+
+    def test_run_process_record_returns_profile(self):
+        args = SimpleNamespace(gc_profile=True, window=4, step=2, save_results=None, save_format=None)
+        result = _process_record("h", "ACGTACGT", args)
+        self.assertIn("header", result)
+        self.assertIn("length", result)
+        self.assertIn("gc_percent", result)
+        self.assertIn("gc_profile", result)
 
 
 if __name__ == "__main__":

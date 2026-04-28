@@ -3,13 +3,13 @@
 
 ## Dokumentaatio
 
-Vaatimusmäärittely: [dokumentaatio/vaatimusmaarittely.md](dokumentaatio/vaatimusmaarittely.md)
+Vaatimusmäärittely: [Vaatimusmaarittely](dokumentaatio/vaatimusmaarittely.md)
 
-Tuntikirjanpito: [Tuntikirjanpito](https://github.com/serze10/ot-harjoitustyo/blob/main/dokumentaatio/tyoaikakirjanpito.md)
+Tuntikirjanpito: [Tuntikirjanpito](dokumentaatio/tyoaikakirjanpito.md)
 
 Changelog: [Changelog](dokumentaatio/changelog.md)
 
-Arkkitehtuuri: [Arkkitehtuuri] (https://github.com/serze10/ot-harjoitustyo/blob/main/dokumentaatio/arkkitehtuuri.md)
+Arkkitehtuuri: [Arkkitehtuuri](dokumentaatio/arkkitehtuuri.md)
 
 ## Asennus
 

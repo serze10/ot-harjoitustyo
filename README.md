@@ -11,6 +11,8 @@ Changelog: [Changelog](dokumentaatio/changelog.md)
 
 Arkkitehtuuri: [Arkkitehtuuri](dokumentaatio/arkkitehtuuri.md)
 
+Käyttöohje: [Käyttöohje](dokumentaatio/kayttoohje.md)
+
 ## Asennus
 
 Asenna riippuvuudet:

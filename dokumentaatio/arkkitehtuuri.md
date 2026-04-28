@@ -1,9 +1,23 @@
 # Arkkitehtuuri
 
-Seuraava kaavio kuvaa sovelluksen pääluokat ja niiden suhteet:
+Seuraava kaavio kuvaa sovelluksen pääluokat ja niiden suhteet (+ = public ja - = private):
 
 ```mermaid
 classDiagram
+package "dna_tool" {
+  class parser {
+    + parse_fasta_string(s)
+    + read_fasta(path)
+  }
+  class analysis {
+    + analyze_sequence(seq)
+    + count_nucleotides(seq)
+    + gc_content(seq)
+    + calculate_gc_profile(seq, window, step)
+    + save_results(path, results, fmt=None)
+  }
+}
+
 class DNAGui {
   - records: list
   - current_result: dict
@@ -21,26 +35,16 @@ class DNAGui {
   + save_results()
 }
 
-class DNA_Tool {
-  + read_fasta(path)
-  + parse_fasta_string(s)
-  + analyze_sequence(seq)
-  + count_nucleotides(seq)
-  + gc_content(seq)
-  + calculate_gc_profile(seq, window, step)
-  + save_results(path, results, fmt=None)
-}
-
 class RunDNA {
   + main(argv=None)
   + _process_record(header, seq, args)
 }
 
-DNAGui ..> DNA_Tool : uses
-RunDNA ..> DNA_Tool : uses
-DNA_Tool o-- parser : contains
-DNA_Tool o-- analysis : contains
+DNAGui ..> parser : uses
+DNAGui ..> analysis : uses
+RunDNA ..> parser : uses
+RunDNA ..> analysis : uses
 
 ```
 
-Kaavion perusteella `DNAGui` käyttää `DNA_Tool`-moduulia lukemaan FASTA-tiedostoja ja analysoimaan sekvenssejä. `RunDNA` on komentorivikäyttöliittymän päälogiikka, joka kutsuu samoja analysisyökaluja.
+Kaavion perusteella `dna_tool` on paketti, joka sisältää erilliset `parser`- ja `analysis`-moduulit. `DNAGui` ja `RunDNA` käyttävät suoraan näitä moduuleja: `parser` lukee FASTA-tiedostot ja `analysis` laskee tilastot ja tallentaa tulokset.

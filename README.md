@@ -9,6 +9,8 @@ Tuntikirjanpito: [Tuntikirjanpito](https://github.com/serze10/ot-harjoitustyo/bl
 
 Changelog: [Changelog](dokumentaatio/changelog.md)
 
+Arkkitehtuuri: [Arkkitehtuuri] (https://github.com/serze10/ot-harjoitustyo/blob/main/dokumentaatio/arkkitehtuuri.md)
+
 ## Asennus
 
 Asenna riippuvuudet:

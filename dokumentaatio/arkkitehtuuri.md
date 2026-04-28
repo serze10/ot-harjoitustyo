@@ -4,18 +4,17 @@ Seuraava kaavio kuvaa sovelluksen pääluokat ja niiden suhteet (+ = public ja -
 
 ```mermaid
 classDiagram
-package "dna_tool" {
-  class parser {
-    + parse_fasta_string(s)
-    + read_fasta(path)
-  }
-  class analysis {
-    + analyze_sequence(seq)
-    + count_nucleotides(seq)
-    + gc_content(seq)
-    + calculate_gc_profile(seq, window, step)
-    + save_results(path, results, fmt=None)
-  }
+class dna_tool_parser {
+  + parse_fasta_string(s)
+  + read_fasta(path)
+}
+
+class dna_tool_analysis {
+  + analyze_sequence(seq)
+  + count_nucleotides(seq)
+  + gc_content(seq)
+  + calculate_gc_profile(seq, window, step)
+  + save_results(path, results, fmt=None)
 }
 
 class DNAGui {
@@ -40,11 +39,11 @@ class RunDNA {
   + _process_record(header, seq, args)
 }
 
-DNAGui ..> parser : uses
-DNAGui ..> analysis : uses
-RunDNA ..> parser : uses
-RunDNA ..> analysis : uses
+DNAGui ..> dna_tool_parser : uses
+DNAGui ..> dna_tool_analysis : uses
+RunDNA ..> dna_tool_parser : uses
+RunDNA ..> dna_tool_analysis : uses
 
 ```
 
-Kaavion perusteella `dna_tool` on paketti, joka sisältää erilliset `parser`- ja `analysis`-moduulit. `DNAGui` ja `RunDNA` käyttävät suoraan näitä moduuleja: `parser` lukee FASTA-tiedostot ja `analysis` laskee tilastot ja tallentaa tulokset.
+Huom: `package`-lohko poistettu, koska joissain Mermaid-versioissa sitä ei tueta `classDiagram`-rakenteessa. Tässä versiossa moduulit on esitetty erillisinä luokkina nimillä `dna_tool_parser` ja `dna_tool_analysis`.

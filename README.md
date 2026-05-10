@@ -11,6 +11,8 @@ Changelog: [Changelog](dokumentaatio/changelog.md)
 
 Arkkitehtuuri: [Arkkitehtuuri](dokumentaatio/arkkitehtuuri.md)
 
+Testidokumentti: [Testidokumentti](dokumentaatio/testidokumentti.md)
+
 Käyttöohje: [Käyttöohje](dokumentaatio/kayttoohje.md)
 
 Release: [Release](ot-harjoitustyo/releases)

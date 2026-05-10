@@ -15,6 +15,7 @@ class dna_tool_analysis {
   + gc_content(seq)
   + calculate_gc_profile(seq, window, step)
   + save_results(path, results, fmt=None)
+  + find_motif(seq, motif)
 }
 
 class DNAGui {
@@ -25,24 +26,27 @@ class DNAGui {
   - gc_var: BooleanVar
   - win_entry: Entry
   - step_entry: Entry
+  - motif_entry: Entry
   - txt: Text
   + __init__()
+  + _build_widgets()
   + open_fasta()
   + run_analysis()
   + _get_selected_record()
   + _compute_and_append_gc()
   + save_results()
+  + find_motif()
 }
 
-class RunDNA {
+class run_dna {
   + main(argv=None)
   + _process_record(header, seq, args)
 }
 
 DNAGui ..> dna_tool_parser : uses
 DNAGui ..> dna_tool_analysis : uses
-RunDNA ..> dna_tool_parser : uses
-RunDNA ..> dna_tool_analysis : uses
+run_dna ..> dna_tool_parser : uses
+run_dna ..> dna_tool_analysis : uses
 
 ```
 ## Korkean tason rakenne
@@ -73,3 +77,9 @@ Projektin hakemistorakenne on jaettu selkeisiin vastuualueisiin:
 ## Testaus
 
 - Testit sijaitsevat `tests/`-kansiossa ja sisältävät sekä yksikkötestejä `dna_tool`-funktioille että mockattuja GUI-testejä, jotka korvaavat Tkinterin dialogit.
+
+## Heikkoudet
+
+- Pysyvä tallennus: Vaikka tulokset voidaan tallentaa JSON/CSV-muotoon, projektiin ei ole oletuksena integroitu relaatiotietokantaa tai muuta pysyvää tallennusratkaisua.
+- GUI-rajoitteet: Tkinter-pohjainen käyttöliittymä on yksinkertainen ja sopii pienen mittakaavan käyttötapauksiin, mutta se voi olla kankea monimutkaisten näkymien tai suurten datamäärien kanssa.
+

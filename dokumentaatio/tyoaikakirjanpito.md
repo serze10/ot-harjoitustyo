@@ -14,4 +14,9 @@
 | 9.3.2026  | 5h     | Gui tekoa |
 | 12.3.2026 | 5h     | Gui toimivaan kuntoon |
 | 14.3.2026 | 3h     | Testejä, dokumentoinnin päivittelyt ja pylint korjauksia |
-| YHTEENSÄ  | 45 h   |        |
+| 25.3.2026 | 5h     | Motiivin toimintoa |
+| 26.3.2026 | 5h     | testejä |
+| 27.3.2016 | 5h     | Testejä ja dokumentaatiota |
+| 7.4.2026  | 2h     | Dokumentaatio päivitystä |
+| 10.4.2026 | 4h     | Viimeistelyt |
+| YHTEENSÄ  | 66 h   |        |

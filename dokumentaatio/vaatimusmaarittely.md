@@ -2,9 +2,9 @@
 
 ## 1. Sovelluksen yleiskuvaus
 
-DNA‑analyysityökalu on sovellus, jonka avulla käyttäjä voi tarkastella ja analysoida DNA‑sekvenssejä FASTA‑tiedostoista. Sovellus laskee sekvenssistä yleisiä perusanalyysimittareita (pituus, nukleotidien frekvenssit, GC‑pitoisuus), etsii yksinkertaisia motiiveja ja tuottaa k‑mer‑tilastoja. Sovellus on tarkoitettu pienimuotoiseen oppimiskäyttöön ja kurssiharjoitteluun, ei tieteellisen tason bioinformatiikkaan.
+DNA‑analyysityökalu on sovellus, jonka avulla käyttäjä voi tarkastella ja analysoida DNA‑sekvenssejä FASTA‑tiedostoista. Sovellus laskee sekvenssistä yleisiä perusanalyysimittareita (pituus, nukleotidien frekvenssit, GC‑pitoisuus) ja etsii yksinkertaisia motiiveja. Sovellus on tarkoitettu pienimuotoiseen oppimiskäyttöön ja kurssiharjoitteluun, ei tieteellisen tason bioinformatiikkaan.
 
-Sovellusta voidaan käyttää komentoriviltä tai graafisen käyttöliittymän kautta. Perusversion toiminnallisuus ei edellytä käyttöliittymää, mutta se voidaan toteuttaa myöhemmässä vaiheessa.
+Sovellusta voidaan käyttää komentoriviltä tai graafisen käyttöliittymän kautta.
 
 ---
 
@@ -37,14 +37,9 @@ Vaatimukset on jaoteltu kurssin ohjeen mukaisesti.
 - GC‑pitoisuus (%).  Done
 - GC‑pitoisuuden liukuva ikkuna (esim. window = 100, step = 50).  Done
 
-####  k‑mer‑tilastot
-- Käyttäjä voi valita k‑merin pituuden (esim. k = 1–10).
-- Sovellus laskee sekvenssin yleisimmät k‑merit.
-- Sovellus näyttää vähintään **top‑10** k‑meriä.
-
 ####  Motiivien etsiminen
-- Käyttäjä voi syöttää motiivin (esim. "ATG").
-- Sovellus etsii kaikki motiivin esiintymiskohdat sekvenssistä.
+- Käyttäjä voi syöttää motiivin (esim. "ATG"). Done
+- Sovellus etsii kaikki motiivin esiintymiskohdat sekvenssistä. Done
 
 ####  Käyttöliittymä
 - Sovellusta voidaan käyttää komentoriviltä. Done
@@ -58,6 +53,11 @@ Vaatimukset on jaoteltu kurssin ohjeen mukaisesti.
 - GC‑pitoisuuden liukuva ikkuna (esim. window = 100, step = 50). 
 - GC‑profiilin kuvaaja (matplotlib).
 - k‑mer‑tilastojen pylväsdiagrammi.
+
+####  k‑mer‑tilastot
+- Käyttäjä voi valita k‑merin pituuden (esim. k = 1–10).
+- Sovellus laskee sekvenssin yleisimmät k‑merit.
+- Sovellus näyttää vähintään **top‑10** k‑meriä.
 
 ####  Edistyneet analyysit
 - ORF‑etsintä (Open Reading Frame).

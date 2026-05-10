@@ -89,6 +89,10 @@ class DNAGui(tk.Tk):
         except (OSError, UnicodeError) as exc:
             messagebox.showerror("Error", f"Failed to read FASTA: {exc}")
             return
+        self._populate_seq_menu(recs, path)
+
+    def _populate_seq_menu(self, recs, path):
+        """Populate the sequence OptionMenu and store records."""
         self.records = recs
         menu = self.seq_menu["menu"]
         menu.delete(0, "end")
@@ -123,29 +127,39 @@ class DNAGui(tk.Tk):
         except ValueError:
             messagebox.showerror("Invalid input", "Window and step must be integers")
             return
-
         result = dna_tool.analyze_sequence(seq)
-        output = [f">{header}", f"Length: {result['length']}"]
-        output.append(f"Counts: {result['counts']}")
-        output.append(f"GC %: {result['gc_percent']}")
+        output = self._format_analysis_output(header, result)
 
         if self.gc_var.get():
-            self._compute_and_append_gc(result, seq, window, step, output)
+            gc_lines = self._compute_and_append_gc(result, seq, window, step)
+            output.extend(gc_lines)
 
         self.current_result = {"header": header, **result}
         self.txt.insert(tk.END, "\n".join(output) + "\n\n")
 
-    def _compute_and_append_gc(self, result, seq, window, step, output):
-        """Compute GC profile windows and append a brief summary to output."""
+    def _format_analysis_output(self, header, result):
+        """Return a list of text lines summarizing an analysis result."""
+        out = [f">{header}", f"Length: {result['length']}"]
+        out.append(f"Counts: {result['counts']}")
+        out.append(f"GC %: {result['gc_percent']}")
+        return out
+
+    def _compute_and_append_gc(self, result, seq, window, step):
+        """Compute GC profile and return summary lines.
+
+        The function updates ``result`` with key ``gc_profile`` and
+        returns a list of text lines describing the profile summary.
+        """
         positions, gc_vals = dna_tool.calculate_gc_profile(seq, window=window, step=step)
         result["gc_profile"] = list(zip(positions, gc_vals))
-        output.append(f"GC profile windows: {len(positions)}")
+        lines = [f"GC profile windows: {len(positions)}"]
         first_windows = result["gc_profile"][:10]
-        output.append(f"First windows (pos,gc): {first_windows}")
+        lines.append(f"First windows (pos,gc): {first_windows}")
+        return lines
 
     def save_results(self):
         """Save the current analysis result to JSON or CSV chosen by user."""
-        if not hasattr(self, "current_result"):
+        if not getattr(self, "current_result", None):
             messagebox.showinfo("No results", "Run analysis before saving")
             return
         save_types = [("JSON", "*.json"), ("CSV", "*.csv")]
@@ -171,11 +185,7 @@ class DNAGui(tk.Tk):
         if not motif:
             messagebox.showinfo("No motif", "Enter a motif string first")
             return
-        try:
-            pos = analysis.find_motif(seq, motif)
-        except Exception as exc:
-            messagebox.showerror("Error", str(exc))
-            return
+        pos = analysis.find_motif(seq, motif)
 
         if not pos:
             messagebox.showinfo("No matches", f"Motif '{motif}' not found in sequence {header}")
